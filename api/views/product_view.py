@@ -1,7 +1,7 @@
 from django.db.models import Count
-from rest_framework import viewsets, status
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
+
 
 from api.filters.product_filter import ProductFilter
 from api.serializers.category_serializers import (
@@ -44,6 +44,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     filterset_class = ProductFilter
+    http_method_names = ["get", "post", "patch", "delete"]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -56,6 +57,3 @@ class ProductViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return Product.objects.select_related("category")
         return Product.objects.all()
-
-    def update(self, request, *args, **kwargs):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
