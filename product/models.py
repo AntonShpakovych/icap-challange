@@ -1,22 +1,19 @@
 from django.db import models
 
-from product.utils import path_for_product_image
-
 
 class Category(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
 
     class Meta:
         verbose_name_plural = "categories"
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Product(models.Model):
-    name = models.CharField(max_length=255)
-    photo = models.ImageField(
-        upload_to=path_for_product_image,
-        null=True,
-        blank=True
-    )
+    name = models.CharField(max_length=255, unique=True)
+    photo = models.URLField()
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -28,5 +25,5 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
