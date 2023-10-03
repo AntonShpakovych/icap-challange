@@ -28,7 +28,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             if self.action == "list":
                 queryset = queryset.annotate(
                     product_quantity=Count("products")
-                )
+                ).order_by("name")
 
             return queryset
         return Category.objects.all()
@@ -56,4 +56,4 @@ class ProductViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == "retrieve":
             return Product.objects.select_related("category")
-        return Product.objects.all()
+        return Product.objects.all().order_by("name")

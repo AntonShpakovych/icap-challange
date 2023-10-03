@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "rest_framework",
+    "drf_spectacular",
     "rest_framework_simplejwt",
     "django_filters",
 
@@ -110,6 +111,7 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
 
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "PAGE_SIZE": 10
 }
 
@@ -121,4 +123,11 @@ SIMPLE_JWT = {
         days=int(os.getenv("JWT_REFRESH_TOKEN_LIFETIME"))
     ),
     "ROTATE_REFRESH_TOKENS": False,
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "ICAP",
+    "DESCRIPTION": "Backend API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
