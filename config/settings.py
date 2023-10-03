@@ -1,4 +1,5 @@
 import os
+import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -20,6 +21,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "rest_framework",
+    "drf_spectacular",
+    "rest_framework_simplejwt",
+    "django_filters",
 
     "user",
     "product",
@@ -82,6 +88,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "user.User"
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -93,3 +101,33 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "PAGE_SIZE": 10
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(
+        minutes=int(os.getenv("JWT_ACCESS_TOKEN_LIFETIME"))
+    ),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(
+        days=int(os.getenv("JWT_REFRESH_TOKEN_LIFETIME"))
+    ),
+    "ROTATE_REFRESH_TOKENS": False,
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "ICAP",
+    "DESCRIPTION": "Backend API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
