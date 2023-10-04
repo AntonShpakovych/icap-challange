@@ -56,4 +56,4 @@ class ProductViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == "retrieve":
             return Product.objects.select_related("category")
-        return Product.objects.all().order_by("name")
+        return Product.objects.all()
