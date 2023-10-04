@@ -1,6 +1,6 @@
 # ICAP CHALLENGE
 
-# To run the project you should be executed
+# To run the project you must perform the following steps
 
 ```shell
 #
